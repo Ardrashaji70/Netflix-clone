@@ -1,55 +1,38 @@
-import './App.css'
-import {useState}from 'react'
+import React from 'react'
+import NavBar from './Components Navbar/NavBar'
+import  './App.css';
+import {originals,action,Romantic,Comedy,Animation,Horror,Thriller} from './Urals'
+import Banner from './Components Navbar/Banner/Banner';
+import Rowpost from './Components Navbar/Rowpost/Rowpost';
+import Login from './Components Navbar/Login/Login';
+import { useState } from 'react'
+
 
 function App() {
-  const [todos, setTodos] = useState([]);
-  const [toDo, setToDo] = useState("");
+
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [search] = useState('');
+
+  if(!isLoggedIn){
+    return <Login setIsLoggedIn={setIsLoggedIn}/>
+  }
+
   return (
-    <div className="app">
-      <div className="mainHeading">
-        <h1>ToDo List</h1>
-      </div>
-      <div className="subHeading">
-        <br />
-        <h2>Whoop, it's Wednesday 🌝 ☕ </h2>
-      </div>
-      <div className="input">
-        <input value={toDo} onChange={(e)=>setToDo(e.target.value)} type="text" placeholder="🖊️ Add item..." />
-        <i onClick={()=>setTodos([...todos, { id:Date.now(), text:toDo ,State:false}])} className="fas fa-plus"></i>
-      </div>
-    
-     {todos.map((obj)=>{
-        return (<div className="todos">
-        <div className="todo">
-          <div className="left">
-            <input onChange={(e)=>{
-             console.log(e.target.checked);
-             console.log(obj);
-             setTodos(todos.filter(obj2=>{
-              if(obj2.id===obj.id){
-                obj2.State=e.target.checked;
-              }
-              return obj2;
+    <div className='app'>
+      <h2>Search: {search}</h2>
 
-             }))
-            }} value={obj.State} type="checkbox" name="" id="" />
-            <p>{obj.text}</p>
-          </div>
-          <div className="right">
-            <i className="fas fa-times"></i>
-          </div>
-        </div>
-      </div>)
-     })}
-     {todos.map((obj)=>{
-      if(obj.states){
-        return (<h1>{obj.text}</h1>)
-      }
-    })}
-  </div>
+      
+      <NavBar/>
+      <Banner/>
 
-);
+      <Rowpost Url={originals} title='Netflix originals'/>
+      <Rowpost Url={action} title='Action' isSmall={true}/>
+      <Rowpost Url={Romantic} title='Romantic' isSmall={true}/>
+      <Rowpost Url={Comedy} title='Comedy' isSmall={true}/>
+      <Rowpost Url={Animation} title='Animation' isSmall={true}/>
+      <Rowpost Url={Horror} title='Horror' isSmall={true}/>
+      <Rowpost Url={Thriller} title='Thriller' isSmall={true}/>
+    </div>
+  )
 }
- 
-
 export default App
